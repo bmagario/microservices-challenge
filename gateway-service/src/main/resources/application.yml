@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8081
+    retry:
+      initial-interval: 3000
+      max-interval: 30000
+      max-attempts: 10
