@@ -20,7 +20,7 @@ public class SumCalculatorService {
     @Cacheable(value = "percentageCache", key = "'percentage'", unless = "#result == null")
     public Double performCalculation(Double num1, Double num2) {
         Double percentage = restTemplate.getForObject(
-                "http://percentage-service/percentage",
+                "http://percentage-service/api/percentage",
                 Double.class);
         Double result = num1 + num2 + (num1 + num2) * percentage / 100;
 

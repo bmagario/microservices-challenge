@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/percentage")
+@RequestMapping("/api/percentage")
 public class PercentageController {
 
     private final PercentageService percentageService;

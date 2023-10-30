@@ -13,11 +13,11 @@ spring:
         - id: sum-calculator-service
           uri: lb://sum-calculator-service
           predicates:
-            - Path=/sum-calculator/**
+            - Path=/api/**
         - id: percentage-service
           uri: lb://percentage-service
           predicates:
-            - Path=/percentage/**
+            - Path=/api/**
 
 eureka:
   client:
