@@ -1,0 +1,68 @@
+version: '3'
+
+services:
+
+  # Discovery Service
+  discovery-service:
+    build: discovery-service
+    image: discovery-service-image:latest
+    ports:
+      - "8761:8761"
+    networks:
+      - microservices-challenge
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://discovery-service:8761/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # Gateway Service
+  gateway-service:
+    build: gateway-service
+    image: gateway-service-image:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - discovery-service
+    networks:
+      - microservices-challenge
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://gateway-service:8080/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: microservices
+      POSTGRES_USER: db_user
+      POSTGRES_PASSWORD: db_password
+    ports:
+      - "5432:5432"
+
+  # Main Service (sum-calculator-service)
+  #sum-calculator-service:
+  #  build: sum-calculator-service
+  #  image: sum-calculator-service-image:latest
+  #  ports:
+  #    - "9090:9090"
+  #  depends_on:
+  #    - discovery-service
+  #    - gateway-service
+  #    - postgres
+
+  # Percentage Service
+  #percentage-service:
+  #  build: percentage-service
+  #  image: percentage-service-image:latest
+  #  ports:
+  #    - "7070:7070"
+  #  depends_on:
+  #    - discovery-service
+  #    - gateway-service
+  
+networks:
+  microservices-challenge:
+    driver: bridge
