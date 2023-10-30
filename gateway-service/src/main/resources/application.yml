@@ -1,11 +1,29 @@
+server:
+  port: 8080
+  
 spring:
   application:
     name: gateway-service
   cloud:
-    config:
-      enabled: true
-      uri: http://localhost:8081
-    retry:
-      initial-interval: 3000
-      max-interval: 30000
-      max-attempts: 10
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: sum-calculator-service
+          uri: lb://sum-calculator-service
+          predicates:
+            - Path=/sum-calculator/**
+        - id: percentage-service
+          uri: lb://percentage-service
+          predicates:
+            - Path=/percentage/**
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      default-zone: http://localhost:8761/eureka
+
+
