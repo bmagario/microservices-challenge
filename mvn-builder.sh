@@ -9,7 +9,7 @@ build_service() {
   )
 }
 
-services=("config-service" "discovery-service" "gateway-service" "sum-calculator-service" "percentage-service")
+services=("discovery-service" "gateway-service" "sum-calculator-service" "percentage-service")
 for service in "${services[@]}"
 do
   build_service "$service"

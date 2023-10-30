@@ -1,6 +1,6 @@
 server:
   port: 8080
-  
+
 spring:
   application:
     name: gateway-service
@@ -24,6 +24,6 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      default-zone: http://localhost:8761/eureka
+      default-zone: http://discovery-service:8761/eureka
 
 
