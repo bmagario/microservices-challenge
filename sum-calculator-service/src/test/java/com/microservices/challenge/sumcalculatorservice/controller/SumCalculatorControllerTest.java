@@ -1,8 +1,7 @@
-package com.microservices.challenge.sumcalculatorservice;
+package com.microservices.challenge.sumcalculatorservice.controller;
 
 import static org.mockito.Mockito.when;
 
-import com.microservices.challenge.sumcalculatorservice.controller.SumCalculatorController;
 import com.microservices.challenge.sumcalculatorservice.service.SumCalculatorService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

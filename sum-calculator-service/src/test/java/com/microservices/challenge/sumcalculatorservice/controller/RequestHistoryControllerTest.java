@@ -1,8 +1,7 @@
-package com.microservices.challenge.sumcalculatorservice;
+package com.microservices.challenge.sumcalculatorservice.controller;
 
 import static org.mockito.Mockito.when;
 
-import com.microservices.challenge.sumcalculatorservice.controller.RequestHistoryController;
 import com.microservices.challenge.sumcalculatorservice.entity.RequestHistory;
 import com.microservices.challenge.sumcalculatorservice.service.RequestHistoryService;
 import java.time.LocalDateTime;

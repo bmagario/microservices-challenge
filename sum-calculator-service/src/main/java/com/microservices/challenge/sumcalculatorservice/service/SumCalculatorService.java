@@ -2,7 +2,6 @@ package com.microservices.challenge.sumcalculatorservice.service;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -11,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 public class SumCalculatorService {
     private final RestTemplate restTemplate;
 
-    public SumCalculatorService(RestTemplate restTemplate, CacheManager cacheManager) {
+    public SumCalculatorService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
