@@ -1,0 +1,125 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Microservices Challenge",
+		"_postman_id": "88c1579f-35e2-9088-1176-a4cfe8c2c16c",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/api/sum-calculator/calculate?num1=5&num2=5",
+			"request": {
+				"url": {
+					"raw": "http://localhost:8080/api/sum-calculator/calculate?num1=5&num2=5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"sum-calculator",
+						"calculate"
+					],
+					"query": [
+						{
+							"key": "num1",
+							"value": "5",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "num2",
+							"value": "5",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"description": ""
+					},
+					{
+						"key": "",
+						"value": "1",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "num1",
+							"value": "5",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "num2",
+							"value": "5",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": "This call is used to get the endpoint to calcualte the sum between two numbers which were applied a percentage that comes from another service"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/api/request-history/all",
+			"request": {
+				"url": "http://localhost:8080/api/request-history/all",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "This method is to get the paginated history (with default params)"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/api/request-history/all?page=2&size=5",
+			"request": {
+				"url": {
+					"raw": "http://localhost:8080/api/request-history/all?page=2&size=5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"request-history",
+						"all"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "size",
+							"value": "5",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "This method is to get the request history call but taking in bunch of fives and the second page"
+			},
+			"response": []
+		}
+	]
+}
