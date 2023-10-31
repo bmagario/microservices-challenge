@@ -27,6 +27,7 @@ public class SumCalculatorService {
         return result;
     }
 
+    // TODO: create the fallback
     public Double fallbackPercentage(Exception e) {
         return 0.0;
     }

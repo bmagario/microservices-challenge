@@ -25,8 +25,7 @@ public class RequestHistoryController {
     @GetMapping("/all")
     public ResponseEntity<Page<RequestHistory>> getHistory(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10")
-            int size) {
+            @RequestParam(defaultValue = "10") int size) {
         Pageable pageable =
                 PageRequest.of(page, size, Sort.by("timestamp").descending());
         Page<RequestHistory> history = requestHistoryService.getAllHistory(pageable);
