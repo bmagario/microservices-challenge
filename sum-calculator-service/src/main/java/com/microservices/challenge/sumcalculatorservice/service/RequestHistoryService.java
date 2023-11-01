@@ -20,6 +20,8 @@ public class RequestHistoryService {
     }
 
     public Page<RequestHistory> getAllHistory(Pageable pageable) {
-        return requestHistoryRepository.findAllByOrderByTimestampDesc(pageable);
+        Page<RequestHistory> page =
+                requestHistoryRepository.findAllByOrderByTimestampDesc(pageable);
+        return page;
     }
 }
