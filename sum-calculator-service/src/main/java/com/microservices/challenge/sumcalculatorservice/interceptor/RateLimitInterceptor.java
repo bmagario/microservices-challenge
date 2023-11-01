@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
@@ -18,7 +19,8 @@ public class RateLimitInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
-                             Object handler) throws Exception {
+                             Object handler)
+            throws HttpClientErrorException {
         String ipAddress = getClientIP(request);
 
         Map<Long, AtomicInteger> requestCounts =
@@ -30,9 +32,8 @@ public class RateLimitInterceptor implements HandlerInterceptor {
                 requestCounts.computeIfAbsent(currentMinute, k -> new AtomicInteger(0));
 
         if (requestCount.incrementAndGet() > MAX_REQUESTS_PER_MINUTE) {
-            response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
-            response.getWriter().write("Too many requests. Please try again later.");
-            return false;
+            throw HttpClientErrorException.create(HttpStatus.TOO_MANY_REQUESTS,
+                    "", null, null, null);
         }
 
         return true;
@@ -40,7 +41,7 @@ public class RateLimitInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
-                                Object handler, Exception ex) throws Exception {
+                                Object handler, Exception ex) {
         String ipAddress = getClientIP(request);
         userRequestCounts.computeIfPresent(ipAddress, (k, v) -> {
             v.entrySet()
