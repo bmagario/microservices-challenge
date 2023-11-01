@@ -40,4 +40,16 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
                 .message("Too Many Requests! Please try later in a minute!")
                 .build(), HttpStatus.TOO_MANY_REQUESTS);
     }
+
+    @ExceptionHandler(PercentageServiceUnavailableException.class)
+    private ResponseEntity<ErrorResponse> handlePercentageServiceUnavailableException(
+            PercentageServiceUnavailableException exception) {
+        log.error("PercentageServiceUnavailableException: ", exception);
+        return new ResponseEntity<>(ErrorResponse.builder()
+                .errors(!isNull(exception.getMessage()) ?
+                        List.of(exception.getMessage()).toString() : exception.toString())
+                .code(TOO_MANY_REQUESTS)
+                .message("Percentage service not available!")
+                .build(), HttpStatus.TOO_MANY_REQUESTS);
+    }
 }
