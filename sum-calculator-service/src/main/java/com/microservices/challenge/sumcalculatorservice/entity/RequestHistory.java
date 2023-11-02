@@ -23,6 +23,7 @@ public class RequestHistory {
 
     private String endpoint;
     private String method;
+    private String queryString;
 
     private String requestBody;
 

@@ -2,6 +2,7 @@ package com.microservices.challenge.sumcalculatorservice.interceptor;
 
 import com.microservices.challenge.sumcalculatorservice.entity.RequestHistory;
 import com.microservices.challenge.sumcalculatorservice.service.RequestHistoryService;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,10 +21,15 @@ public class RequestInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
-                             Object handler) {
+                             Object handler) throws IOException {
+        if ("/api/request-history/all".equals(request.getRequestURI())) {
+            return true; // Skip interceptor logic for this URL
+        }
+        
         RequestHistory history = new RequestHistory();
         history.setEndpoint(request.getRequestURI());
         history.setMethod(request.getMethod());
+        history.setQueryString(request.getQueryString());
         history.setRequestBody(getRequestBody(request));
         history.setTimestamp(LocalDateTime.now());
 
@@ -43,8 +49,8 @@ public class RequestInterceptor implements HandlerInterceptor {
         }
     }
 
-    private String getRequestBody(HttpServletRequest request) {
-        return "test request";
+    private String getRequestBody(HttpServletRequest request) throws IOException {
+        return RequestBodyReader.readRequestBody(request);
     }
 
     private String getResponseBody(HttpServletResponse response) {
