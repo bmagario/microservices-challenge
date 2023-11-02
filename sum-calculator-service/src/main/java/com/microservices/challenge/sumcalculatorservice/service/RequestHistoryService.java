@@ -15,7 +15,7 @@ public class RequestHistoryService {
         this.requestHistoryRepository = requestHistoryRepository;
     }
 
-    public void save(RequestHistory requestHistory) {
+    public void saveRequestHistory(RequestHistory requestHistory) {
         requestHistoryRepository.save(requestHistory);
     }
 

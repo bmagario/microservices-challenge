@@ -32,12 +32,12 @@ public class RequestHistoryServiceTest {
     @Test
     public void testSaveRequestHistory() {
         RequestHistory requestHistory = new RequestHistory();
-        requestHistoryService.save(requestHistory);
+        requestHistoryService.saveRequestHistory(requestHistory);
         verify(requestHistoryRepository).save(requestHistory);
     }
 
     @Test
-    public void testGetAllHistory() {
+    void getAllHistory_WhenFindAllByOrderByTimestampDesc_ShouldReturnPageableResult() {
         Pageable pageable = PageRequest.of(0, 5, Sort.unsorted());
         List<RequestHistory> requestHistoryList = createMockRequestHistory();
         Page<RequestHistory> mockPage =

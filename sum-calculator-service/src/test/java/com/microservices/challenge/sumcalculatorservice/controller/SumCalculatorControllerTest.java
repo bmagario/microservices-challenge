@@ -36,7 +36,7 @@ class SumCalculatorControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void testCalculate() throws Exception {
+    void calculate_WhenParamsOk_ShouldReturnCorrectValue() throws Exception {
         when(sumCalculatorService.performCalculation(3.0, 4.0)).thenReturn(7.0);
 
 

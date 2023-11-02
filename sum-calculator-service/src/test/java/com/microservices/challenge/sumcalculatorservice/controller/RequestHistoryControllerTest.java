@@ -50,7 +50,7 @@ class RequestHistoryControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void testGetHistory() throws Exception {
+    void getHistory_WhenParamsOk_ShouldReturnPageableResult() throws Exception {
         Pageable pageableFilter = PageRequest.of(0, 5, Sort.unsorted());
         List<RequestHistory> requestHistoryList = createMockRequestHistory();
         Page<RequestHistory> mockPage =

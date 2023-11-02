@@ -10,6 +10,11 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class SumCalculatorService {
     private final RestTemplate restTemplate;
+
+    public void setLastSuccessfulResult(Double lastSuccessfulResult) {
+        this.lastSuccessfulResult = lastSuccessfulResult;
+    }
+
     private Double lastSuccessfulResult;
 
 

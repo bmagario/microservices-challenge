@@ -48,7 +48,7 @@ public class RequestInterceptor implements HandlerInterceptor {
         if (history != null) {
             history.setStatusCode(response.getStatus());
             history.setResponseBody(getResponseBody(response));
-            requestHistoryService.save(history);
+            requestHistoryService.saveRequestHistory(history);
         }
     }
 
