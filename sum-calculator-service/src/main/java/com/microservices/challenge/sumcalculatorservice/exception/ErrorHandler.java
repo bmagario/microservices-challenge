@@ -17,6 +17,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
 
     private static final String GENERIC = "0000";
     private static final String TOO_MANY_REQUESTS = "0429";
+    private static final String SERVICE_UNAVAILABLE = "0503";
 
     @ExceptionHandler(Exception.class)
     private ResponseEntity<ErrorResponse> handleGenericException(Throwable exception) {
@@ -48,8 +49,8 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(ErrorResponse.builder()
                 .errors(!isNull(exception.getMessage()) ?
                         List.of(exception.getMessage()).toString() : exception.toString())
-                .code(TOO_MANY_REQUESTS)
-                .message("Percentage service not available!")
-                .build(), HttpStatus.TOO_MANY_REQUESTS);
+                .code(SERVICE_UNAVAILABLE)
+                .message("Percentage service not available! Please wait a minute and try again!")
+                .build(), HttpStatus.SERVICE_UNAVAILABLE);
     }
 }
