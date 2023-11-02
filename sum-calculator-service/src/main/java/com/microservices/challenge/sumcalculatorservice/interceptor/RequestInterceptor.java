@@ -2,10 +2,13 @@ package com.microservices.challenge.sumcalculatorservice.interceptor;
 
 import com.microservices.challenge.sumcalculatorservice.entity.RequestHistory;
 import com.microservices.challenge.sumcalculatorservice.service.RequestHistoryService;
+import java.io.CharArrayWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,9 +26,9 @@ public class RequestInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                              Object handler) throws IOException {
         if ("/api/request-history/all".equals(request.getRequestURI())) {
-            return true; // Skip interceptor logic for this URL
+            return true;
         }
-        
+
         RequestHistory history = new RequestHistory();
         history.setEndpoint(request.getRequestURI());
         history.setMethod(request.getMethod());
@@ -40,7 +43,7 @@ public class RequestInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-                           ModelAndView modelAndView) {
+                           ModelAndView modelAndView) throws Exception {
         RequestHistory history = (RequestHistory) request.getAttribute("requestHistory");
         if (history != null) {
             history.setStatusCode(response.getStatus());
@@ -53,8 +56,32 @@ public class RequestInterceptor implements HandlerInterceptor {
         return RequestBodyReader.readRequestBody(request);
     }
 
-    private String getResponseBody(HttpServletResponse response) {
-        return "Test response";
+    private String getResponseBody(HttpServletResponse response) throws Exception {
+        ContentCaptureWrapper responseWrapper = new ContentCaptureWrapper(response);
+
+        responseWrapper.setCharacterEncoding(response.getCharacterEncoding());
+        responseWrapper.setContentType(response.getContentType());
+
+        HandlerInterceptor.super.postHandle(null, responseWrapper, null, null);
+
+        return responseWrapper.getCapturedContent();
+    }
+
+    private static class ContentCaptureWrapper extends HttpServletResponseWrapper {
+        private CharArrayWriter charArrayWriter = new CharArrayWriter();
+
+        public ContentCaptureWrapper(HttpServletResponse response) {
+            super(response);
+        }
+
+        @Override
+        public PrintWriter getWriter() {
+            return new PrintWriter(charArrayWriter);
+        }
+
+        public String getCapturedContent() {
+            return charArrayWriter.toString();
+        }
     }
 }
 
