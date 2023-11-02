@@ -70,17 +70,23 @@ class RequestHistoryControllerTest extends BaseControllerTest {
 
     private List<RequestHistory> createMockRequestHistory() {
         return Arrays.asList(
-                new RequestHistory(31L, "/api/sum-calculator/calculate", "GET", "test request", 200,
+                new RequestHistory(31L, "/api/sum-calculator/calculate", "GET",
+                        "test request", "num1=5&num2=5", 200,
                         "Test response", LocalDateTime.parse("2023-10-31T13:09:36.801905")),
-                new RequestHistory(30L, "/api/sum-calculator/calculate", "GET", "test request", 200,
+                new RequestHistory(30L, "/api/sum-calculator/calculate", "GET",
+                        "test request", "num1=5&num2=5", 200,
                         "Test response", LocalDateTime.parse("2023-10-31T13:09:35.213288")),
-                new RequestHistory(29L, "/api/sum-calculator/calculate", "GET", "test request", 200,
+                new RequestHistory(29L, "/api/sum-calculator/calculate", "GET",
+                        "test request", "num1=5&num2=5", 200,
                         "Test response", LocalDateTime.parse("2023-10-31T13:09:18.11473")),
-                new RequestHistory(28L, "/api/sum-calculator/calculate", "GET", "test request", 200,
+                new RequestHistory(28L, "/api/sum-calculator/calculate", "GET",
+                        "test request", "num1=5&num2=5", 200,
                         "Test response", LocalDateTime.parse("2023-10-31T13:09:17.308171")),
-                new RequestHistory(27L, "/api/sum-calculator/calculate", "GET", "test request", 200,
+                new RequestHistory(27L, "/api/sum-calculator/calculate", "GET",
+                        "test request", "num1=5&num2=5", 200,
                         "Test response", LocalDateTime.parse("2023-10-31T13:09:15.174292"))
         );
     }
+
 }
 
