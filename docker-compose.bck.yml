@@ -19,7 +19,7 @@ services:
     depends_on:
       - discovery-service
     environment:
-      WAIT_HOSTS: localhost:8761
+      WAIT_HOSTS: discovery-service:8761
     network_mode: host
 
   # PostgreSQL Database
@@ -40,11 +40,6 @@ services:
       - discovery-service
       - gateway-service
       - postgres
-    environment:
-      WAIT_HOSTS: localhost:8080
-    deploy:
-      mode: replicated
-      replicas: 2
     network_mode: host
 
   # Percentage Service
@@ -53,9 +48,4 @@ services:
     depends_on:
       - discovery-service
       - gateway-service
-    environment:
-      WAIT_HOSTS: localhost:8080
-    deploy:
-      mode: replicated
-      replicas: 2
     network_mode: host

@@ -38,7 +38,9 @@ public class RequestHistoryServiceTest {
 
     @Test
     void getAllHistory_WhenFindAllByOrderByTimestampDesc_ShouldReturnPageableResult() {
-        Pageable pageable = PageRequest.of(0, 5, Sort.unsorted());
+        int page = 0;
+        int size = 5;
+        Pageable pageable = PageRequest.of(page, size, Sort.unsorted());
         List<RequestHistory> requestHistoryList = createMockRequestHistory();
         Page<RequestHistory> mockPage =
                 new PageImpl<>(requestHistoryList, pageable, requestHistoryList.size());

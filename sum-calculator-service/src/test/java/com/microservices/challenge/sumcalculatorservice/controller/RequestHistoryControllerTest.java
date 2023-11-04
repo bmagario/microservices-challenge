@@ -51,21 +51,23 @@ class RequestHistoryControllerTest extends BaseControllerTest {
 
     @Test
     void getHistory_WhenParamsOk_ShouldReturnPageableResult() throws Exception {
-        Pageable pageableFilter = PageRequest.of(0, 5, Sort.unsorted());
+        int page = 0;
+        int size = 5;
+        Pageable pageableFilter = PageRequest.of(page, size, Sort.unsorted());
         List<RequestHistory> requestHistoryList = createMockRequestHistory();
         Page<RequestHistory> mockPage =
                 new PageImpl<>(requestHistoryList, pageableFilter, requestHistoryList.size());
 
         when(requestHistoryService.getAllHistory(
-                PageRequest.of(0, 5, Sort.by("timestamp").descending())))
+                PageRequest.of(page, size, Sort.by("timestamp").descending())))
                 .thenReturn(mockPage);
 
-        String uri = "/api/request-history/all?page=0&size=5";
+        String uri = "/api/request-history/all?page=" + page + "&size=" + size;
 
         mockMvc.perform(MockMvcRequestBuilders.get(uri)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.content.size()").value(5));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.content.size()").value(size));
     }
 
     private List<RequestHistory> createMockRequestHistory() {

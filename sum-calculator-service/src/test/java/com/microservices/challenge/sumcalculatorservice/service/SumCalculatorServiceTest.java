@@ -27,15 +27,21 @@ class SumCalculatorServiceTest {
     void performCalculation_WhenGetPercentageFromExternalService_ShouldReturnCorrectResult() {
         Double num1 = 5.0;
         Double num2 = 5.0;
-        Double mockPercentage = 5.0;
+        Double percentage = 5.0;
 
-        when(restTemplate.getForObject(any(String.class), any(Class.class)))
-                .thenReturn(mockPercentage);
-
-        Double result = sumCalculatorService.performCalculation(num1, num2);
-
-        Double expected = num1 + num2 + (num1 + num2) * mockPercentage / 100;
+        Double result = sumCalculatorService.performCalculation(num1, num2, percentage);
+        Double expected = num1 + num2 + (num1 + num2) * percentage / 100;
         assertEquals(expected, result, 0.001);
+    }
+
+    @Test
+    void getPercentageValue_WhenGetPercentageFromExternalService_ShouldReturnCorrectResult() {
+        Double percentage = 5.0;
+
+        when(restTemplate.getForObject(any(String.class), any(Class.class))).thenReturn(percentage);
+
+        Double percentageValue = sumCalculatorService.getPercentageValue();
+        assertEquals(percentage, percentageValue, 0.001);
     }
 
     @Test
@@ -49,7 +55,7 @@ class SumCalculatorServiceTest {
     @Test
     void fallbackPercentage_WhenLastSuccessfulResultIsPresent_ShouldReturnLastSuccessfulResultIsPresent() {
         Exception mockException = mock(Exception.class);
-        sumCalculatorService.setLastSuccessfulResult(11.0);
+        sumCalculatorService.setLastSuccessfulPercentage(11.0);
 
         Double fallbackResult = sumCalculatorService.fallbackPercentage(mockException);
 

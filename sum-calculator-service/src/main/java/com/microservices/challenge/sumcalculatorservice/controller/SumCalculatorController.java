@@ -20,8 +20,9 @@ public class SumCalculatorController {
     @GetMapping("/calculate")
     public ResponseEntity<Double> calculate(@RequestParam(name = "num1") Double num1,
                                             @RequestParam(name = "num2") Double num2) {
+        Double percentage = sumCalculatorService.getPercentageValue();
         Double result =
-                sumCalculatorService.performCalculation(num1, num2);
+                sumCalculatorService.performCalculation(num1, num2, percentage);
         return ResponseEntity.ok(result);
     }
 }
