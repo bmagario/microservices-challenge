@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/sum-calculator")
 public class SumCalculatorController {
 
-    private static final String VALIDATION_REGEX = "^\\d+(\\.\\d+)?(,\\d+(\\.\\d+)?)*$";
+    private static final String VALIDATION_REGEX = "^\\d+(\\.\\d+)?(,\\d+(\\.\\d+)?)?$";
 
     private final SumCalculatorService sumCalculatorService;
 
@@ -38,5 +38,4 @@ public class SumCalculatorController {
         Double result = sumCalculatorService.performCalculation(parsedNum1, parsedNum2, percentage);
         return ResponseEntity.ok(result);
     }
-
 }

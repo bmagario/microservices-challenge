@@ -1,10 +1,10 @@
 package com.microservices.challenge.sumcalculatorservice.controller;
 
+import com.microservices.challenge.sumcalculatorservice.exception.ErrorHandler;
 import com.microservices.challenge.sumcalculatorservice.service.SumCalculatorService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -20,19 +20,17 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 class SumCalculatorControllerTest extends BaseControllerTest {
     private MockMvc mockMvc;
 
-    @Mock
+    @MockBean
     private SumCalculatorService sumCalculatorService;
 
-    @MockBean
-    private SumCalculatorController sumCalculatorController;
-
     @BeforeEach
-    public void init() {
+    public void setUp() {
         this.mockMvc =
                 MockMvcBuilders.standaloneSetup(new SumCalculatorController(sumCalculatorService))
-                        //.setControllerAdvice(new ErrorHandler())
+                        .setControllerAdvice(ErrorHandler.class)
                         .build();
     }
+
 
     @Test
     void calculate_WhenParamsOk_ShouldReturnCorrectValue() throws Exception {
@@ -52,5 +50,16 @@ class SumCalculatorControllerTest extends BaseControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(result.toString()));
     }
-}
 
+    @Test
+    void calculate_WhenNumParamsIncorrect_ShouldReturnBadRequest() throws Exception {
+        String num1 = "3.0";
+        String num2 = "invalid_number";
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/sum-calculator/calculate")
+                        .param("num1", num1)
+                        .param("num2", num2)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+}
