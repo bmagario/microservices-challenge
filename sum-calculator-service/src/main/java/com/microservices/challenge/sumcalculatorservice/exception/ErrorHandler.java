@@ -3,6 +3,7 @@ package com.microservices.challenge.sumcalculatorservice.exception;
 import static java.util.Objects.isNull;
 
 import java.util.List;
+import javax.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class ErrorHandler extends ResponseEntityExceptionHandler {
 
     private static final String GENERIC = "0000";
+    private static final String BAD_REQUEST = "0400";
     private static final String TOO_MANY_REQUESTS = "0429";
     private static final String SERVICE_UNAVAILABLE = "0503";
 
@@ -42,6 +44,30 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
                 .build(), HttpStatus.TOO_MANY_REQUESTS);
     }
 
+    @ExceptionHandler(NumberFormatException.class)
+    private ResponseEntity<ErrorResponse> handleNumberFormatException(
+            NumberFormatException exception) {
+        log.error("NumberFormatException: ", exception);
+        return new ResponseEntity<>(ErrorResponse.builder()
+                .errors(!isNull(exception.getMessage()) ?
+                        List.of(exception.getMessage()).toString() : exception.toString())
+                .code(BAD_REQUEST)
+                .message("Invalid number!")
+                .build(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    private ResponseEntity<ErrorResponse> handleConstraintViolationException(
+            ConstraintViolationException exception) {
+        log.error("ConstraintViolationException: ", exception);
+        return new ResponseEntity<>(ErrorResponse.builder()
+                .errors(!isNull(exception.getMessage()) ?
+                        List.of(exception.getMessage()).toString() : exception.toString())
+                .code(BAD_REQUEST)
+                .message("Invalid number!")
+                .build(), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(PercentageServiceUnavailableException.class)
     private ResponseEntity<ErrorResponse> handlePercentageServiceUnavailableException(
             PercentageServiceUnavailableException exception) {
@@ -53,4 +79,6 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
                 .message("Percentage service not available! Please wait a minute and try again!")
                 .build(), HttpStatus.SERVICE_UNAVAILABLE);
     }
+
+
 }

@@ -2,7 +2,9 @@ package com.microservices.challenge.sumcalculatorservice.config;
 
 import com.microservices.challenge.sumcalculatorservice.interceptor.RateLimitInterceptor;
 import com.microservices.challenge.sumcalculatorservice.interceptor.RequestInterceptor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -16,6 +18,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         RateLimitInterceptor rateLimitInterceptor) {
         this.requestInterceptor = requestInterceptor;
         this.rateLimitInterceptor = rateLimitInterceptor;
+    }
+
+    @Bean
+    public MethodValidationPostProcessor methodValidationPostProcessor() {
+        return new MethodValidationPostProcessor();
     }
 
     @Override
