@@ -33,6 +33,12 @@ services:
       - "5432:5432"
     network_mode: host
 
+  redis:
+    image: redis
+    ports:
+      - "6380:6380"
+    network_mode: host
+
   # Main Service (sum-calculator-service)
   sum-calculator-service:
     image: sum-calculator-service-image:latest
@@ -40,6 +46,7 @@ services:
       - discovery-service
       - gateway-service
       - postgres
+      - redis
     environment:
       WAIT_HOSTS: localhost:8080
     deploy:
