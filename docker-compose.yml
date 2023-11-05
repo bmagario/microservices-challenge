@@ -4,7 +4,7 @@ services:
 
   # Discovery Service
   discovery-service:
-    image: discovery-service-image:latest
+    image: bmagario/discovery-service-image:latest
     container_name: discovery-service
     ports:
       - "8761:8761"
@@ -12,7 +12,7 @@ services:
 
   # Gateway Service
   gateway-service:
-    image: gateway-service-image:latest
+    image: bmagario/gateway-service-image:latest
     container_name: gateway-service
     ports:
       - "8080:8080"
@@ -41,7 +41,7 @@ services:
 
   # Main Service (sum-calculator-service)
   sum-calculator-service:
-    image: sum-calculator-service-image:latest
+    image: bmagario/sum-calculator-service-image:latest
     depends_on:
       - discovery-service
       - gateway-service
@@ -56,7 +56,7 @@ services:
 
   # Percentage Service
   percentage-service:
-    image: percentage-service-image:latest
+    image: bmagario/percentage-service-image:latest
     depends_on:
       - discovery-service
       - gateway-service
